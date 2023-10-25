@@ -37,7 +37,7 @@ echo "Changes to running config:"
 compare
 
 if "${dry_run}"; then
-  exit 0
+  exit
 else
   # Pull new container images
   mapfile -t AVAILABLE_IMAGES < <(run show container image | awk '{ if ( NR > 1  ) { print $1 ":" $2} }')

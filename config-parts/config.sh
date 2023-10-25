@@ -31,12 +31,12 @@ set interfaces ethernet eth0 description 'WAN'
 set interfaces ethernet eth1 address '192.168.1.111/24'
 set interfaces ethernet eth1 description 'LAN'
 set interfaces loopback lo
-set nat source rule 11 outbound-interface 'eth0'
-set nat source rule 11 source address '192.168.1.0/24'
-set nat source rule 11 translation address 'masquerade'
-set nat source rule 12 outbound-interface 'tailscale0'
-set nat source rule 12 source address '192.168.0.0/16'
-set nat source rule 12 translation address 'masquerade'
+set nat source rule 100 outbound-interface 'eth0'
+set nat source rule 100 source address '192.168.1.0/24'
+set nat source rule 100 translation address 'masquerade'
+set nat source rule 110 outbound-interface 'tailscale0'
+set nat source rule 110 source address '192.168.0.0/16'
+set nat source rule 110 translation address 'masquerade'
 set service dhcp-server host-decl-name
 set service dhcp-server hostfile-update
 set service dhcp-server shared-network-name LAN domain-name 'lan'
@@ -54,19 +54,20 @@ set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-map
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 ip-address '192.168.1.3'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 mac-address '28:ee:52:62:9d:5a'
 set service dns forwarding allow-from '0.0.0.0/0'
-set service dns forwarding domain snow-char.ts.net name-server 100.100.100.100
+set service dns forwarding domain snow-char.ts.net server 100.100.100.100
 set service dns forwarding listen-address '192.168.1.111'
 set service dns forwarding name-server 192.168.3.2
-set service ntp allow-client address '0.0.0.0/0'
-set service ntp allow-client address '::/0'
-set service ntp server 0.pool.ntp.org
-set service ntp server 1.pool.ntp.org
-set service ntp server 2.pool.ntp.org
+set system ntp listen-address '192.168.1.111'
+set system ntp allow-client address '0.0.0.0/0'
+delete system ntp server
+set system ntp server 0.pool.ntp.org
+set system ntp server 1.pool.ntp.org
+set system ntp server 2.pool.ntp.org
 set service snmp community public authorization 'ro'
 set service snmp community public network '192.168.1.0/24'
 set service snmp listen-address 192.168.1.111 port '161'
-set service snmp trap-target 192.168.1.182 community 'public'
 set service ssh port 22
+delete system console
 set system config-management commit-revisions '100'
 set system conntrack modules ftp
 set system conntrack modules h323
