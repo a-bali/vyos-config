@@ -6,5 +6,4 @@
 !/commit
 /commit/*
 !/commit/post-hooks.d
-/commit/post-hooks.d/*
-!/commit/post-hooks.d/*.sh
+!/commit/post-hooks.d/*

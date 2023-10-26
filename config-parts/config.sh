@@ -1,15 +1,16 @@
 #!/bin/vbash
 
+set container network containers prefix '192.168.100.0/24'
 set container name pihole environment DNSMASQ_LISTENING value 'single'
 set container name pihole environment FTLCONF_NAMES_FROM_NETDB value 'false'
-set container name pihole environment PIHOLE_DNS_ value '1.1.1.1;1.0.1.1'
+set container name pihole environment PIHOLE_DNS_ value '1.1.1.1;1.0.0.1'
 set container name pihole environment REV_SERVER value 'true'
 set container name pihole environment REV_SERVER_CIDR value '192.168.0.0/16'
-set container name pihole environment REV_SERVER_TARGET value '192.168.1.111'
+set container name pihole environment REV_SERVER_TARGET value '192.168.1.1'
 set container name pihole environment TZ value 'Europe/Budapest'
 set container name pihole environment WEBPASSWORD value 'pihole'
-set container name pihole image 'pihole/pihole:latest'
-set container name pihole network containers address '192.168.3.2'
+set container name pihole image 'docker.io/pihole/pihole:latest'
+set container name pihole network containers address '192.168.100.100'
 set container name pihole volume dnsmasq destination '/etc/dnsmasq.d'
 set container name pihole volume dnsmasq mode 'rw'
 set container name pihole volume dnsmasq source '/config/containers/pihole/dnsmasq'
@@ -25,47 +26,54 @@ set container name vnstat shared-memory '0'
 set container name vnstat volume vnstat-data destination '/var/lib/vnstat'
 set container name vnstat volume vnstat-data mode 'rw'
 set container name vnstat volume vnstat-data source '/config/containers/vnstat'
-set container network containers prefix '192.168.3.0/24'
+
 set interfaces ethernet eth0 address 'dhcp'
 set interfaces ethernet eth0 description 'WAN'
-set interfaces ethernet eth1 address '192.168.1.111/24'
+set interfaces ethernet eth1 address '192.168.1.1/24'
 set interfaces ethernet eth1 description 'LAN'
 set interfaces loopback lo
+
 set nat source rule 100 outbound-interface 'eth0'
-set nat source rule 100 source address '192.168.1.0/24'
+set nat source rule 100 source address '192.168.0.0/16'
 set nat source rule 100 translation address 'masquerade'
 set nat source rule 110 outbound-interface 'tailscale0'
 set nat source rule 110 source address '192.168.0.0/16'
 set nat source rule 110 translation address 'masquerade'
+
 set service dhcp-server host-decl-name
 set service dhcp-server hostfile-update
-set service dhcp-server shared-network-name LAN domain-name 'lan'
-set service dhcp-server shared-network-name LAN domain-search 'lan'
-set service dhcp-server shared-network-name LAN domain-search 'snow-char.ts.net'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 default-router '192.168.1.111'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 default-router '192.168.1.1'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 lease '86400'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 name-server '192.168.1.111'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 start '192.168.1.20'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 stop '192.168.1.200'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 name-server '192.168.1.1'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 start '192.168.1.101'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 stop '192.168.1.240'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt1 ip-address '192.168.1.11'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt1 mac-address 'f4:f2:6d:9c:36:f7'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 ip-address '192.168.1.12'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 mac-address '28:ee:52:62:9d:5a'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping desktop ip-address '192.168.1.25'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping desktop mac-address 'd0:50:99:51:d4:8c'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping wled ip-address '192.168.1.30'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping wled mac-address '38:2b:78:04:2d:34'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas ip-address '192.168.1.200'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas mac-address 'd0:50:99:98:7f:df'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt1 ip-address '192.168.1.2'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt1 mac-address 'f4:f2:6d:9c:36:f7'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 ip-address '192.168.1.3'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt2 mac-address '28:ee:52:62:9d:5a'
+
 set service dns forwarding allow-from '0.0.0.0/0'
 set service dns forwarding domain snow-char.ts.net server 100.100.100.100
-set service dns forwarding listen-address '192.168.1.111'
-set service dns forwarding name-server 192.168.3.2
-set system ntp listen-address '192.168.1.111'
+set service dns forwarding listen-address '192.168.1.1'
+set service dns forwarding name-server 192.168.100.100
+
+set system ntp listen-address '192.168.1.1'
 set system ntp allow-client address '0.0.0.0/0'
 delete system ntp server
 set system ntp server 0.pool.ntp.org
 set system ntp server 1.pool.ntp.org
 set system ntp server 2.pool.ntp.org
+
 set service snmp community public authorization 'ro'
-set service snmp community public network '192.168.1.0/24'
-set service snmp listen-address 192.168.1.111 port '161'
+set service snmp community public network '192.168.0.0/16'
+set service snmp listen-address 192.168.1.1 port '161'
+
 set service ssh port 22
 delete system console
 set system config-management commit-revisions '100'
@@ -76,9 +84,7 @@ set system conntrack modules pptp
 set system conntrack modules sip
 set system conntrack modules sqlnet
 set system conntrack modules tftp
-set system domain-name 'lan'
-set system domain-search domain 'lan'
-set system domain-search domain 'snow-char.ts.net'
+
 set system host-name 'vyos'
 set system ipv6 disable-forwarding
 set system login banner post-login ''
@@ -91,3 +97,9 @@ set system name-server '1.0.0.1'
 set system syslog global facility all level 'info'
 set system syslog global facility local7 level 'debug'
 set system time-zone 'Europe/Budapest'
+
+set system static-host-mapping host-name pve.lan inet '192.168.1.2'
+set system static-host-mapping host-name switch.lan inet '192.168.1.10'
+set system static-host-mapping host-name vyos.lan inet '192.168.1.1'
+
+set system option performance latency
