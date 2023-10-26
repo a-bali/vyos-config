@@ -103,3 +103,16 @@ set system static-host-mapping host-name switch.lan inet '192.168.1.10'
 set system static-host-mapping host-name vyos.lan inet '192.168.1.1'
 
 set system option performance latency
+
+set firewall name WAN-IN default-action 'drop'
+set firewall name WAN-IN enable-default-log
+set firewall name WAN-IN rule 10 action 'accept'
+set firewall name WAN-IN rule 10 state established 'enable'
+set firewall name WAN-IN rule 10 state related 'enable'
+set firewall name WAN-LOCAL default-action 'drop'
+set firewall name WAN-LOCAL enable-default-log
+set firewall name WAN-LOCAL rule 10 action 'accept'
+set firewall name WAN-LOCAL rule 10 state established 'enable'
+set firewall name WAN-LOCAL rule 10 state related 'enable'
+set interfaces ethernet eth0 firewall in name 'WAN-IN'
+set interfaces ethernet eth0 firewall local name 'WAN-LOCAL'
