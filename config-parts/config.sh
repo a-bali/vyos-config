@@ -57,6 +57,10 @@ set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-map
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping wled mac-address '38:2b:78:04:2d:34'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas ip-address '192.168.1.200'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas mac-address 'd0:50:99:98:7f:df'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa mac-address '1c:12:b0:5a:50:5d'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa ip-address '192.168.1.31'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv mac-address 'cc:b1:1a:7a:01:c8'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv ip-address '192.168.1.32'
 
 set service dns forwarding allow-from '0.0.0.0/0'
 set service dns forwarding domain snow-char.ts.net server 100.100.100.100
@@ -109,10 +113,25 @@ set firewall name WAN-IN enable-default-log
 set firewall name WAN-IN rule 10 action 'accept'
 set firewall name WAN-IN rule 10 state established 'enable'
 set firewall name WAN-IN rule 10 state related 'enable'
+set firewall name WAN-IN rule 10 description 'Accept established and related packets'
 set firewall name WAN-LOCAL default-action 'drop'
 set firewall name WAN-LOCAL enable-default-log
 set firewall name WAN-LOCAL rule 10 action 'accept'
 set firewall name WAN-LOCAL rule 10 state established 'enable'
 set firewall name WAN-LOCAL rule 10 state related 'enable'
+set firewall name WAN-LOCAL rule 10 description 'Accept established and related packets'
+set firewall name WAN-LOCAL rule 20 action 'accept'
+set firewall name WAN-LOCAL rule 20 source address '192.168.0.0/16'
+set firewall name WAN-LOCAL rule 20 protocol 'icmp'
+set firewall name WAN-LOCAL rule 20 description 'Accept ICMP from local subnet'
+set firewall name WAN-LOCAL rule 30 action 'accept'
+set firewall name WAN-LOCAL rule 30 source address '192.168.0.0/16'
+set firewall name WAN-LOCAL rule 30 protocol 'igmp'
+set firewall name WAN-LOCAL rule 30 description 'Accept IGMP from local subnet'
+set firewall name WAN-LOCAL rule 40 action 'accept'
+set firewall name WAN-LOCAL rule 40 protocol 'udp'
+set firewall name WAN-LOCAL rule 40 destination port 41641
+set firewall name WAN-LOCAL rule 40 description 'Accept Tailscale packets'
 set interfaces ethernet eth0 firewall in name 'WAN-IN'
 set interfaces ethernet eth0 firewall local name 'WAN-LOCAL'
+set system conntrack tcp loose enable
