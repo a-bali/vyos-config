@@ -1,6 +1,14 @@
 #!/bin/vbash
 
 set container network containers prefix '192.168.100.0/24'
+set container name nginx allow-host-networks
+set container name nginx image 'docker.io/nginx:stable-alpine-slim'
+set container name nginx volume nginx-config destination '/etc/nginx/conf.d'
+set container name nginx volume nginx-config mode 'ro'
+set container name nginx volume nginx-config source '/config/containers/nginx/conf'
+set container name nginx volume nginx-data destination '/usr/share/nginx/html/'
+set container name nginx volume nginx-data mode 'ro'
+set container name nginx volume nginx-data source '/config/containers/nginx/data'
 set container name pihole environment DNSMASQ_LISTENING value 'single'
 set container name pihole environment FTLCONF_NAMES_FROM_NETDB value 'false'
 set container name pihole environment PIHOLE_DNS_ value '1.1.1.1;1.0.0.1'
@@ -104,6 +112,8 @@ set system time-zone 'Europe/Budapest'
 
 set system static-host-mapping host-name pve.lan inet '192.168.1.2'
 set system static-host-mapping host-name switch.lan inet '192.168.1.10'
+set system static-host-mapping host-name vyos.lan alias 'pihole.lan'
+set system static-host-mapping host-name vyos.lan alias 'vnstat.lan'
 set system static-host-mapping host-name vyos.lan inet '192.168.1.1'
 
 set system option performance latency

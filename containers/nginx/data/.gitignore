@@ -3,7 +3,4 @@
 
 # Track certain files and directories
 !.gitignore
-
-!/pihole/
-!/vnstat/
-!/nginx/
+!index.html
