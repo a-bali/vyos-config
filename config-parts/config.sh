@@ -9,6 +9,7 @@ set container name nginx volume nginx-config source '/config/containers/nginx/co
 set container name nginx volume nginx-data destination '/usr/share/nginx/html/'
 set container name nginx volume nginx-data mode 'ro'
 set container name nginx volume nginx-data source '/config/containers/nginx/data'
+set container name pihole environment CORS_HOSTS value 'pihole,pihole.lan'
 set container name pihole environment DNSMASQ_LISTENING value 'single'
 set container name pihole environment FTLCONF_NAMES_FROM_NETDB value 'false'
 set container name pihole environment PIHOLE_DNS_ value '1.1.1.1;1.0.0.1'
