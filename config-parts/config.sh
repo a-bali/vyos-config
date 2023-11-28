@@ -51,8 +51,11 @@ set nat source rule 110 translation address 'masquerade'
 
 set service dhcp-server host-decl-name
 set service dhcp-server hostfile-update
+set service dhcp-server shared-network-name LAN domain-name lan
+set service dhcp-server shared-network-name LAN domain-search lan
+set service dhcp-server shared-network-name LAN domain-search snow-char.ts.net
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 default-router '192.168.1.1'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 lease '86400'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 lease '10800'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 name-server '192.168.1.1'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 start '192.168.1.101'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 stop '192.168.1.240'
@@ -70,6 +73,10 @@ set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-map
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa ip-address '192.168.1.31'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv mac-address 'cc:b1:1a:7a:01:c8'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv ip-address '192.168.1.32'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw mac-address '90:38:0C:68:0D:43'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw ip-address '192.168.1.33'
+
+set service monitoring telegraf prometheus-client port '9100'
 
 set service dns forwarding allow-from '0.0.0.0/0'
 set service dns forwarding domain snow-char.ts.net server 100.100.100.100
@@ -77,7 +84,7 @@ set service dns forwarding listen-address '192.168.1.1'
 set service dns forwarding name-server 192.168.100.100
 
 set system ntp listen-address '192.168.1.1'
-set system ntp allow-client address '0.0.0.0/0'
+set system ntp allow-clients address '0.0.0.0/0'
 delete system ntp server
 set system ntp server 0.pool.ntp.org
 set system ntp server 1.pool.ntp.org
@@ -109,6 +116,11 @@ set system name-server '1.1.1.1'
 set system name-server '1.0.0.1'
 set system syslog global facility all level 'info'
 set system syslog global facility local7 level 'debug'
+set system syslog global facility protocols level debug
+set system syslog host 192.168.1.174 facility all level info
+set system syslog host 192.168.1.174 facility all protocol tcp
+set system syslog host 192.168.1.174 format octet-counted
+set system syslog host 192.168.1.174 port 6000
 set system time-zone 'Europe/Budapest'
 
 set system static-host-mapping host-name pve.lan inet '192.168.1.2'
