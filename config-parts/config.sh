@@ -71,10 +71,11 @@ set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-map
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas mac-address 'd0:50:99:98:7f:df'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa mac-address '1c:12:b0:5a:50:5d'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa ip-address '192.168.1.31'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv mac-address 'cc:b1:1a:7a:01:c8'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping samsungtv ip-address '192.168.1.32'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping tcltv mac-address '2c:e0:32:7e:23:de'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping tcltv ip-address '192.168.1.32'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw mac-address '90:38:0C:68:0D:43'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw ip-address '192.168.1.33'
+
 
 set service monitoring telegraf prometheus-client port '9100'
 
