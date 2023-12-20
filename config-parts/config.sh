@@ -67,15 +67,24 @@ set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-map
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping desktop mac-address 'd0:50:99:51:d4:8c'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping wled ip-address '192.168.1.30'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping wled mac-address '38:2b:78:04:2d:34'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas ip-address '192.168.1.200'
-set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas mac-address 'd0:50:99:98:7f:df'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa mac-address '1c:12:b0:5a:50:5d'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping alexa ip-address '192.168.1.31'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping tcltv mac-address '2c:e0:32:7e:23:de'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping tcltv ip-address '192.168.1.32'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw mac-address '90:38:0C:68:0D:43'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping zigbeegw ip-address '192.168.1.33'
-
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping sentinel ip-address '192.168.1.50'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping sentinel mac-address '0a:1f:8f:5b:fa:34'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping hass ip-address '192.168.1.60'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping hass mac-address '02:50:4a:90:42:e1'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping mqttgw mac-address '3e:42:6c:59:48:39'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping mqttgw ip-address '192.168.1.35'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping mainplug mac-address '4c:eb:d6:cb:d1:08'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping mainplug ip-address '192.168.1.15'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping houseplug mac-address '4c:eb:d6:cb:d1:13'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping houseplug ip-address '192.168.1.16'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas mac-address 'bc:24:11:c1:e6:5f'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping nas ip-address '192.168.1.20'
 
 set service monitoring telegraf prometheus-client port '9100'
 
@@ -118,13 +127,14 @@ set system name-server '1.0.0.1'
 set system syslog global facility all level 'info'
 set system syslog global facility local7 level 'debug'
 set system syslog global facility protocols level debug
-set system syslog host 192.168.1.174 facility all level info
-set system syslog host 192.168.1.174 facility all protocol tcp
-set system syslog host 192.168.1.174 format octet-counted
-set system syslog host 192.168.1.174 port 6000
+set system syslog host sentinel.lan facility all level info
+set system syslog host sentinel.lan facility all protocol tcp
+set system syslog host sentinel.lan format octet-counted
+set system syslog host sentinel.lan port 6000
 set system time-zone 'Europe/Budapest'
 
 set system static-host-mapping host-name pve.lan inet '192.168.1.2'
+set system static-host-mapping host-name pve2.lan inet '192.168.1.3'
 set system static-host-mapping host-name switch.lan inet '192.168.1.10'
 set system static-host-mapping host-name vyos.lan alias 'pihole.lan'
 set system static-host-mapping host-name vyos.lan alias 'vnstat.lan'
