@@ -57,6 +57,7 @@ set service dhcp-server shared-network-name LAN domain-search snow-char.ts.net
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 default-router '192.168.1.1'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 lease '10800'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 name-server '192.168.1.1'
+set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 ntp-server '192.168.1.1'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 start '192.168.1.101'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 range 0 stop '192.168.1.240'
 set service dhcp-server shared-network-name LAN subnet 192.168.1.0/24 static-mapping openwrt1 ip-address '192.168.1.11'
@@ -94,7 +95,6 @@ set service dns forwarding listen-address '192.168.1.1'
 set service dns forwarding name-server 192.168.100.100
 
 set system ntp listen-address '192.168.1.1'
-set system ntp allow-clients address '0.0.0.0/0'
 delete system ntp server
 set system ntp server 0.pool.ntp.org
 set system ntp server 1.pool.ntp.org
